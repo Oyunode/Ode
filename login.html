@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Нэвтрэх</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #1b1b1b;
+            color: white;
+            font-family: 'Press Start 2P', cursive, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 500px;
+            padding: 20px;
+            border: 4px solid #ffcc00;
+            background-color: #333;
+        }
+        h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #ffcc00;
+        }
+        input {
+            padding: 10px;
+            font-size: 16px;
+            width: 80%;
+            margin: 10px;
+            border-radius: 5px;
+            border: 2px solid #ffcc00;
+            background-color: #555;
+            color: white;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #ffcc00;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            width: 80%;
+            margin-top: 10px;
+            font-family: 'Press Start 2P', cursive, sans-serif;
+        }
+        button:hover {
+            background-color: #ffaa00;
+        }
+        .signup-button {
+            display: block;
+            width: fit-content;
+            margin: 20px auto 0 auto;
+            background-color: #555;
+            color: white;
+            padding: 10px 20px;
+            border: 4px solid #333;
+            font-size: 16px;
+            cursor: pointer;
+            font-family: 'Press Start 2P', cursive;
+        }
+        .error-message {
+            color: #ff4444;
+            margin: 10px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>🔐 Нэвтрэх</h2>
+        <input type="text" id="username" placeholder="Хэрэглэгчийн нэр">
+        <input type="password" id="password" placeholder="Нууц үг">
+        <div id="errorMessage" class="error-message"></div>
+        <button onclick="login()">Нэвтрэх</button>
+        <a href="signup.html" class="signup-button">Бүртгүүлэх</a>
+    </div>
+
+    <script>
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorElement = document.getElementById('errorMessage');
+
+            errorElement.textContent = '';
+
+            // Хэрэглэгчийн нэр, нууц үг шалгах
+            if (username === "admin" && password === "password") {
+                // Нэвтрэх амжилттай бол шууд GBL.html руу шилжих
+                window.location.href = "GBL.html"; // Шилжих хуудас
+            } else {
+                errorElement.textContent = 'Буруу хэрэглэгчийн нэр эсвэл нууц үг.';
+            }
+        }
+    </script>
+</body>
+</html>

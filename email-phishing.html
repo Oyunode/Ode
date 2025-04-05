@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Фишингээс хамгаалаарай!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mongolian&family=Press+Start+2P&family=Montserrat&display=swap" rel="stylesheet">
+    <style>
+        /* Body */
+        body {
+            background-color: #1b1b1b;
+            color: white;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        /* Header */
+        h1 {
+            font-family: 'Press Start 2P', cursive;
+            color: #ffcc00;
+            margin-bottom: 20px;
+            font-size: 36px;
+        }
+
+        /* Game Container */
+        .game-container {
+            width: 90%;
+            max-width: 1000px;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #333;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Email Image */
+        .email-image-container {
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .email-image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        /* Buttons */
+        .game-button {
+            padding: 15px;
+            font-size: 18px;
+            border: none;
+            cursor: pointer;
+            width: 45%;
+            border-radius: 5px;
+            margin: 10px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: inline-block;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 12px;
+        }
+
+        /* Correct Button */
+        .correct-button {
+            background-color: #4CAF50; /* Green */
+            color: white;
+        }
+
+        .correct-button:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+
+        /* Incorrect Button */
+        .incorrect-button {
+            background-color: #f44336; /* Red */
+            color: white;
+        }
+
+        .incorrect-button:hover {
+            background-color: #da190b;
+            transform: scale(1.05);
+        }
+
+        /* Result and Explanation */
+        .answer-result {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+
+        .answer-explanation {
+            font-size: 16px;
+            color: #777;
+            margin-top: 10px;
+        }
+
+        /* Back Button */
+        .back-button {
+            margin-top: 30px;
+            background-color: #555;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+
+        }
+
+        .back-button:hover {
+            background-color: #444;
+            transform: scale(1.05);
+        }
+
+        .back-button:active {
+            box-shadow: 2px 2px 0px black;
+            transform: translate(3px, 3px);
+        }
+
+        /* Inline Button Container */
+        .inline-buttons {
+            display: flex;
+            justify-content: center;
+            font-family: 'Press Start 2P', cursive;
+
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- Email Identification Game -->
+    <div class="game-container">
+        <!-- Email Image Upload -->
+        <div class="email-image-container">
+            <h3>Таны үзэж буй имэйл нь фишинг эсэхийг тодорхойлно уу.</h3>
+            <!-- Image Placeholder -->
+            <img id="emailImage" src="Phishing-mail1.png" alt="Email Image">
+        </div>
+
+        <!-- Buttons for Email Identification -->
+        <div class="inline-buttons">
+            <button class="game-button correct-button" onclick="checkEmail('correct')">Фишинг имэйл байна</button>
+            <button class="game-button incorrect-button" onclick="checkEmail('incorrect')">Фишинг имэйл биш</button>
+        </div>
+
+        <!-- Result and Explanation -->
+        <div class="answer-result" id="answerResult"></div>
+        <div class="answer-explanation" id="answerExplanation"></div>
+
+        <!-- Game Report -->
+        <div class="game-report" id="gameReport"></div>
+
+        <!-- Back Button -->
+        <button class="back-button" onclick="location.href='tasks.html'">Буцах</button>
+    </div>
+
+    <!-- Sound Effects for Feedback -->
+    <audio id="correct-sound" src="correct-sound.mp3" preload="auto"></audio>
+    <audio id="incorrect-sound" src="incorrect-sound.mp3" preload="auto"></audio>
+
+    <script>
+        let currentImageIndex = 1; // Initialize the first image
+        let correctAnswers = 0;
+        let totalAnswers = 0;
+        
+        // Function to play sound effects
+        function playSound(type) {
+            if (type === 'correct') {
+                document.getElementById('correct-sound').play();
+            } else {
+                document.getElementById('incorrect-sound').play();
+            }
+        }
+        
+        // Function to change image after hiding previous explanation
+        function changeImage() {
+            setTimeout(() => {
+                document.getElementById('answerResult').innerText = '';
+                document.getElementById('answerExplanation').innerText = '';
+        
+                currentImageIndex++;
+                if (currentImageIndex <= 3) { // We have 3 images in total
+                    document.getElementById('emailImage').src = 'Phishing-mail' + currentImageIndex + '.png';
+                } else {
+                    // Game ends after 3 images
+                    document.getElementById('answerResult').innerText = 'Тоглоом дууслаа!';
+                    document.getElementById('answerExplanation').innerText = 'Та бүх зургийг шалгаж дууссан байна.';
+                    document.querySelector('.inline-buttons').style.display = 'none'; // Hide buttons when the game ends
+                    showGameReport();
+                }
+            }, 3000); // Hide explanation and change image after 3 seconds
+        }
+        
+        // Function to check the email
+        function checkEmail(type) {
+            totalAnswers++;
+            let resultText = '';
+            let explanationText = '';
+        
+            if (type === 'correct') {
+                resultText = 'Таны сонголт зөв байна!';
+                explanationText = 'Энэ имэйл нь фишингийн хуурамч имэйл юм. Энэ нь таны мэдээллийг хулгайлах зорилготой.';
+                correctAnswers++;
+                playSound('correct');
+            } else {
+                resultText = 'Таны сонголт буруу байна!';
+                explanationText = 'Энэ имэйл нь хуурамч биш. Гэхдээ аюулгүй байдлын хувьд анхаарах зүйлс байх боломжтой.';
+                playSound('incorrect');
+            }
+        
+            document.getElementById('answerResult').innerText = resultText;
+            document.getElementById('answerExplanation').innerText = explanationText;
+        
+            changeImage(); // Change image after showing explanation
+        }
+        
+        // Show game report after the game ends
+        function showGameReport() {
+            document.getElementById('gameReport').innerHTML = `<h3>Тоглоомын тайлан:</h3>
+                                        <p>Таны зөв хариулт: ${correctAnswers} / ${totalAnswers}</p>
+                                        <p>Тоглоомын үр дүнг дүгнэж үзэхэд, ${Math.round((correctAnswers / totalAnswers) * 100)}% зөв хариулттай байна.</p>`;
+        }
+    </script>
+</body>
+</html>

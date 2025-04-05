@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тоглоомын даалгаврууд</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #1b1b1b;
+            color: white;
+            font-family: 'Press Start 2P', cursive, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+            overflow: hidden;
+            animation: fadeIn 1s ease-in-out;
+        }
+        .game-container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .title {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #ffcc00;
+            animation: slideDown 1s ease-in-out;
+        }
+        .game-card {
+            background-color: #333;
+            color: #ffffff;
+            padding: 15px;
+            margin: 10px;
+            border: 4px solid #ffcc00;
+            box-shadow: 5px 5px 0px black;
+            cursor: pointer;
+            font-size: 16px;
+            width: 80%;
+            max-width: 500px;
+            text-align: center;
+            transition: transform 0.2s, background-color 0.3s, box-shadow 0.3s;
+            animation: fadeIn 1s ease-in-out;
+        }
+        .game-card:hover {
+            background-color: #ffcc00;
+            color: black;
+            transform: scale(1.05);
+            box-shadow: 8px 8px 0px black;
+        }
+        .game-card .sub-text {
+            font-size: 12px;
+            color: #ffcc00;
+        }
+        .back-button {
+            margin-top: 20px;
+            background-color: #222;
+            color: white;
+            padding: 10px 20px;
+            border: 4px solid #ffcc00;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 5px 5px 0px black;
+            width: 80%;
+            max-width: 300px;
+            font-size: 12px;
+            font-family: 'Press Start 2P', cursive;
+            transition: transform 0.2s, background-color 0.3s, box-shadow 0.3s;
+        }
+        .back-button:hover {
+            background-color: #ffcc00;
+            color: black;
+            box-shadow: 8px 8px 0px black;
+        }
+        .back-button:active {
+            transform: translate(3px, 3px);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <div class="title">🎮 Сонгосон тоглоомуудаа давах!</div>
+        <div class="game-card" onclick="playClickSound(); location.href='phishing_simulator.html'">🎣 <b>Фишингээс хамгаалаарай!</b> - <span class="sub-text">Хуурамч имэйлийг таних</span></div>
+        <div class="game-card" onclick="playClickSound(); location.href='password_str.html'">🔐 <b>Нууц үгээ бат бөх болго!</b> - <span class="sub-text">Нууц үгийн хамгаалалт</span></div>
+        <div class="game-card" onclick="playClickSound(); location.href='spot_the_scammer.html'">🕵️ <b>Хуулийн мэдлэгээ шалгах!</b> - <span class="sub-text">Онолын асуултууд</span></div>
+        <div class="game-card" onclick="playClickSound(); location.href='trust_no_one.html'">🤨 <b>Хэнд итгэх вэ?</b> - <span class="sub-text">Мэдээллийн аюулгүй байдлыг шалгах</span></div>
+        <div class="game-card" onclick="playClickSound(); location.href='secure_employee.html'">👨‍💻 <b>Аюулгүй ажилтан бай!</b> - <span class="sub-text">Ажлын орчны кибер хамгаалалт</span></div>
+        <button class="back-button" onclick="playClickSound(); location.href='GBL.html'">Буцах</button>
+    </div>
+
+    <!-- Click sound effect -->
+    <audio id="click-sound" src="click-sound.mp3" preload="auto"></audio>
+
+    <script>
+        function playClickSound() {
+            var clickSound = document.getElementById("click-sound");
+            clickSound.currentTime = 0; // Reset sound before playing
+            clickSound.play();
+        }
+    </script>
+</body>
+</html>

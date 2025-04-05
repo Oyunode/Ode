@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Хуулийн шалгалт</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #0d0d0d;
+            color: white;
+            font-family: 'Press Start 2P', cursive;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+        }
+        .title {
+            font-size: 24px;
+            margin-top: 20px;
+            color: #ffcc00;
+        }
+        .quiz-container {
+            max-width: 600px;
+            margin: auto;
+            background: #222;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 5px 5px 0px black;
+        }
+        .question {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .options button {
+            background-color: #555;
+            color: white;
+            padding: 10px;
+            border: 4px solid #333;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 3px 3px 0px black;
+            font-family: 'Press Start 2P', cursive;
+            margin: 5px;
+            display: block;
+            width: 100%;
+        }
+        .options button:active {
+            box-shadow: 2px 2px 0px black;
+            transform: translate(2px, 2px);
+        }
+        .result {
+            margin-top: 15px;
+            font-size: 18px;
+            color: #ffcc00;
+        }
+        .play-again {
+            background-color: #ffcc00;
+            color: black;
+            padding: 10px;
+            border: 4px solid #333;
+            font-size: 16px;
+            cursor: pointer;
+            font-family: 'Press Start 2P', cursive;
+            margin-top: 20px;
+            display: none;
+            margin: auto;
+            margin-right: auto;
+        }
+        .back-button {
+            background-color: #555;
+            color: white;
+            padding: 10px;
+            border: 4px solid #333;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 12px;
+            cursor: pointer;
+            margin-top: 20px;
+            display: block;
+            margin: auto;
+            margin-right: auto;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="title">🎮 Хуулийн шалгалт</div>
+</header>
+
+<div class="quiz-container">
+    <div class="question" id="question">Асуулт ачааллаж байна...</div>
+    <div class="options" id="options"></div>
+    <div class="result" id="result"></div>
+    <button class="play-again" onclick="startQuiz()">Дахин тоглох</button>
+</div>
+
+<button class="back-button" onclick="location.href='tasks.html'">Буцах</button>
+
+<script>
+    const questions = [
+        {
+            question: "Кибер аюулгүй байдлын тухай хуулийн зорилго юу вэ?",
+            options: ["Кибер халдлагаас хамгаалах", "Мэдээллийг устгах", "Цахим орчныг хаах"],
+            answer: "Кибер халдлагаас хамгаалах"
+        },
+        {
+            question: "Монгол Улсын кибер аюулгүй байдлын тухай хууль хэзээ батлагдсан бэ?",
+            options: ["2020 он", "2021 он", "2023 он"],
+            answer: "2021 он"
+        },
+        {
+            question: "Кибер халдлагаас хамгаалах үндсэн зарчим аль нь вэ?",
+            options: ["Цахим орчны мэдээллийг хамгаалах", "Хувийн мэдээллийг хакердах", "Нууц үгээ бусдад өгөх"],
+            answer: "Цахим орчны мэдээллийг хамгаалах"
+        }
+    ];
+
+    let currentQuestionIndex = 0;
+
+    function startQuiz() {
+        document.getElementById("result").innerHTML = "";
+        document.querySelector(".play-again").style.display = "none";
+        currentQuestionIndex = 0;
+        loadQuestion();
+    }
+
+    function loadQuestion() {
+        const questionData = questions[currentQuestionIndex];
+        document.getElementById("question").innerText = questionData.question;
+        const optionsContainer = document.getElementById("options");
+        optionsContainer.innerHTML = "";
+        
+        questionData.options.forEach(option => {
+            const button = document.createElement("button");
+            button.innerText = option;
+            button.onclick = () => checkAnswer(option);
+            optionsContainer.appendChild(button);
+        });
+    }
+
+    function checkAnswer(selected) {
+        const correctAnswer = questions[currentQuestionIndex].answer;
+        if (selected === correctAnswer) {
+            document.getElementById("result").innerHTML = "✅ Зөв!";
+        } else {
+            document.getElementById("result").innerHTML = "❌ Буруу! Зөв хариулт: " + correctAnswer;
+        }
+
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+            setTimeout(loadQuestion, 1000);
+        } else {
+            document.querySelector(".play-again").style.display = "block";
+        }
+    }
+
+    startQuiz();
+</script>
+
+</body>
+</html>

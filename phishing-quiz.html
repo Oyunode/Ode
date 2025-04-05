@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Фишинг шалгалт</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #1b1b1b;
+            margin: 0;
+            padding: 0;
+            font-family: 'Press Start 2P';
+            text-align: center;
+            color: white;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        .quiz-container {
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            border: 2px solid #ffcc00;
+            border-radius: 10px;
+            background-color: #333;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .quiz-header {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .quiz-button {
+            background-color: #ffcc00;
+            color: black;
+            padding: 15px 30px;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 0 10px #ffcc00, 0 0 20px #ffcc00;
+            border-radius: 10px;
+            font-family: 'Press Start 2P';
+            margin: 10px;
+            transition: 0.3s;
+            width: 100%;
+        }
+        .quiz-button:hover {
+            background-color: #e6b800;
+        }
+        .quiz-option {
+            background-color: #555;
+            color: white;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 12px;
+            transition: background-color 0.3s;
+            font-family: 'Press Start 2P';
+
+        }
+        .quiz-option:hover {
+            background-color: #777;
+        }
+        .timer {
+            font-size: 18px;
+            margin-top: 20px;
+            color: #ffcc00;
+        }
+        .back-button {
+            background-color: #ff5733;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 0 0 10px #ff5733, 0 0 20px #ff5733;
+            border-radius: 10px;
+            font-family: 'Press Start 2P';
+            margin-top: 20px;
+            transition: 0.3s;
+            display: none; /* Initially hidden */
+            width: 100%;
+            max-width: 300px;
+        }
+        .back-button:hover {
+            background-color: #e04e2a;
+        }
+        .result {
+            font-size: 24px;
+            color: #ffcc00;
+            margin-top: 20px;
+        }
+        .feedback {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .correct {
+            color: green;
+        }
+        .incorrect {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h2 class="quiz-header">Фишинг шалгалт</h2>
+        <p id="question-text">Асуулт ачааллаж байна...</p>
+        <div id="options-container">
+            <button class="quiz-option" id="option1" onclick="checkAnswer(0)"></button>
+            <button class="quiz-option" id="option2" onclick="checkAnswer(1)"></button>
+            <button class="quiz-option" id="option3" onclick="checkAnswer(2)"></button>
+            <button class="quiz-option" id="option4" onclick="checkAnswer(3)"></button>
+        </div>
+        <p id="timer" class="timer">30 секунд үлдсэн байна...</p>
+        <button class="quiz-button" id="next-button" onclick="nextQuestion()" style="display:none;">Дараагийн асуулт</button>
+        <div id="result-container" class="result" style="display:none;">
+            <p>Таны үр дүн: <span id="score"></span> оноо</p>
+            <button class="back-button" id="back-button" onclick="window.location.href='phishing_simulator.html'">Буцах</button>
+        </div>
+        <p id="feedback" class="feedback" style="display:none;"></p>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "Фишинг халдлага гэж юу вэ?",
+                options: ["Шахаж авах залилан", "Өгөгдөл дээрэмдэх", "Нууц мэдээлэл авах", "Цаг хугацааны хулгай"],
+                correctAnswer: 2
+            },
+            {
+                question: "Имэйл фишингийн аюул юу вэ?",
+                options: ["Нууц үгийг хулгайлах", "Утасны дугаарыг хулгайлах", "Компьютерийг устгах", "Хуурамч вэб сайт"],
+                correctAnswer: 0
+            },
+            {
+                question: "Фишингээс хэрхэн хамгаалах вэ?",
+                options: ["Шууд холбогдож шалгах", "Нууц үгийг хуваалцах", "Бүх линкүүдэд дарж үзэх", "Тусламж авах"],
+                correctAnswer: 0
+            },
+            {
+                question: "Фишинг халдлагын жишээ юу вэ?",
+                options: ["Имэйл хуурамч", "Хард диск устах", "Тоглоом татах", "Вирус татах"],
+                correctAnswer: 0
+            },
+            {
+                question: "Фишингээс хамгийн сайн хамгаалалт юу вэ?",
+                options: ["Шилдэг антивирус", "Мэдээллийн хамгаалалт", "Нууц үгний хамгаалалт", "Хүний сэрэмж"],
+                correctAnswer: 3
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let timerInterval;
+        let timeLeft = 30;
+
+        // Function to load a question
+        function loadQuestion() {
+            if (currentQuestionIndex < questions.length) {
+                const question = questions[currentQuestionIndex];
+                document.getElementById('question-text').innerText = question.question;
+                document.getElementById('option1').innerText = question.options[0];
+                document.getElementById('option2').innerText = question.options[1];
+                document.getElementById('option3').innerText = question.options[2];
+                document.getElementById('option4').innerText = question.options[3];
+
+                // Reset the timer
+                timeLeft = 30;
+                document.getElementById('timer').innerText = `${timeLeft} секунд үлдсэн байна...`;
+                clearInterval(timerInterval);
+                timerInterval = setInterval(updateTimer, 1000);
+
+                // Hide the next button initially
+                document.getElementById('next-button').style.display = 'none';
+                document.getElementById('feedback').style.display = 'none'; // Hide feedback before answering
+            } else {
+                showResults();
+            }
+        }
+
+        function updateTimer() {
+            timeLeft--;
+            document.getElementById('timer').innerText = `${timeLeft} секунд үлдсэн байна...`;
+
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                checkAnswer(-1); // Timeout answer
+            }
+        }
+
+        function checkAnswer(index) {
+            const correctAnswer = questions[currentQuestionIndex].correctAnswer;
+            const feedbackElement = document.getElementById('feedback');
+
+            // Show feedback immediately
+            if (index === correctAnswer) {
+                score += 10; // Correct answer gives 10 points
+                feedbackElement.innerText = "Таны хариулт зөв!";
+                feedbackElement.classList.add('correct');
+                feedbackElement.classList.remove('incorrect');
+            } else {
+                feedbackElement.innerText = "Таны хариулт буруу!";
+                feedbackElement.classList.add('incorrect');
+                feedbackElement.classList.remove('correct');
+            }
+
+            feedbackElement.style.display = 'block'; // Show feedback
+            // Show next button after answer
+            document.getElementById('next-button').style.display = 'inline-block';
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            loadQuestion();
+        }
+
+        function showResults() {
+            clearInterval(timerInterval); // Stop the timer
+            document.getElementById('result-container').style.display = 'block';
+            document.getElementById('score').innerText = score;
+            document.getElementById('back-button').style.display = 'inline-block'; // Show back button after quiz finishes
+        }
+
+        loadQuestion(); // Start the quiz
+    </script>
+</body>
+</html>

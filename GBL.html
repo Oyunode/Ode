@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тоглоомын даалгаврууд</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #1b1b1b;
+            margin: 0;
+            padding: 0;
+            font-family: 'Press Start 2P';
+            overflow: hidden;
+        }
+        
+        /* Video Background */
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+        
+        /* Professional Game Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background: rgba(0, 0, 0, 0.8);
+            border-bottom: 3px solid #ffcc00;
+            box-shadow: 0px 5px 20px rgba(255, 204, 0, 0.5);
+        }
+        nav a {
+            color: #ffcc00;
+            text-decoration: none;
+            font-size: 14px;
+            margin: 0 15px;
+            transition: 0.3s;
+        }
+        nav a:hover {
+            color: #ffffff;
+            text-shadow: 0px 0px 10px #ffcc00;
+        }
+        .profile-icon img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .profile-icon img:hover {
+            transform: scale(1.1);
+        }
+        
+        /* Game Title & Button */
+        .game-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 70vh;
+            text-align: center;
+            color: white;
+        }
+        .title {
+            font-size: 36px;
+            text-shadow: 3px 3px 10px rgba(255, 255, 255, 0.8);
+            margin-bottom: 50px;
+        }
+        .start-button {
+            background-color: #ffcc00;
+            color: black;
+            padding: 15px 30px;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            box-shadow: 0 0 15px #ffcc00, 0 0 30px #ffcc00;
+            border-radius: 20px;
+            font-family: 'Press Start 2P';
+            position: relative;
+            animation: glow 1.5s infinite alternate;
+        }
+        .start-button:active {
+            transform: scale(0.95);
+        }
+        
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 10px #ffcc00, 0 0 20px #ffcc00;
+            }
+            to {
+                box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffcc00;
+            }
+        }
+    </style>
+</head>
+<body>
+    <video autoplay muted loop class="video-background">
+        <source src="background-video.mp4" type="video/mp4">
+    </video>
+    
+    <header>
+        <nav>
+            <a href="#contact">Бидний тухай</a>
+            <a href="law.html">Кибер аюулгүй байдлын хууль</a>
+            <a href="theory.html">Онол</a>
+            <a href="#law">Холбоо барих</a>
+        </nav>
+        <div class="profile-icon">
+            <a href="user_profile.html">
+                <img src="profile-icon.jpg" alt="Profile" />
+            </a>
+        </div>
+    </header>
+    
+    <div class="game-container">
+        <div class="title">🎮 Кибер халдлагаас хамгаалцгаая!</div>
+        <audio id="click-sound" src="click-sound.mp3" preload="auto"></audio>
+        <audio id="back-sound" src="click-sound.mp3" preload="auto"></audio>
+
+        <button class="start-button" onclick="playClickSound(); location.href='tasks.html'">Тоглоом эхлэх</button>
+    </div>
+    
+    <script>
+        function playClickSound() {
+            var audio = document.getElementById('click-sound');
+            audio.play();
+        }
+    </script>
+</body>
+</html>

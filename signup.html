@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Бүртгүүлэх</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #1b1b1b;
+            color: white;
+            font-family: 'Press Start 2P', cursive, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 500px;
+            padding: 20px;
+            border: 4px solid #ffcc00;
+            background-color: #333;
+        }
+        h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #ffcc00;
+        }
+        input, button {
+            padding: 10px;
+            font-size: 16px;
+            width: 80%;
+            margin: 10px;
+            border-radius: 5px;
+            border: 2px solid #ffcc00;
+            background-color: #555;
+            color: white;
+        }
+        button {
+            background-color: #ffcc00;
+            color: black;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #ffaa00;
+        }
+        .success-message {
+            margin-top: 20px;
+            color: #00ff00;
+            font-size: 14px;
+        }
+        .error-message {
+            color: #ff4444;
+            margin: 5px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>📝 Бүртгүүлэх</h2>
+        <input type="text" id="newUsername" placeholder="Хэрэглэгчийн нэр" required>
+        <input type="password" id="newPassword" placeholder="Нууц үг" required>
+        <input type="password" id="confirmPassword" placeholder="Нууц үгийг баталгаажуулах" required>
+        <div id="errorMessage" class="error-message"></div>
+        <button onclick="signup()">Бүртгүүлэх</button>
+        <button onclick="window.location.href='login.html'">Буцах</button>
+        <div id="successMessage" class="success-message" style="display: none;"></div>
+    </div>
+
+    <script>
+        async function signup() {
+            const username = document.getElementById('newUsername').value;
+            const password = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const errorElement = document.getElementById('errorMessage');
+            const successElement = document.getElementById('successMessage');
+
+            errorElement.textContent = '';
+            successElement.style.display = 'none';
+
+            // Validation
+            if (!username || !password || !confirmPassword) {
+                errorElement.textContent = 'Бүх талбарыг бөглөнө үү!';
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                errorElement.textContent = 'Нууц үгүүд тохирохгүй байна!';
+                return;
+            }
+
+            if (password.length < 6) {
+                errorElement.textContent = 'Нууц үг хамгийн багадаа 6 тэмдэгтээс бүрдэнэ!';
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:3000/signup', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    successElement.textContent = '✅ Амжилттай бүртгэгдлээ! Та нэвтрэх хуудас руу шилжинэ...';
+                    successElement.style.display = 'block';
+                    
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 2000);
+                } else {
+                    errorElement.textContent = data.message || 'Бүртгэл хийхэд алдаа гарлаа';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                errorElement.textContent = 'Серверт холбогдоход алдаа гарлаа';
+            }
+        }
+    </script>
+</body>
+</html>

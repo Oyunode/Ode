@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Фишингээс хамгаалаарай!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mongolian&family=Press+Start+2P&family=Montserrat&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #1b1b1b;
+            color: #ffcc00;
+            font-family: 'Press Start 2P';
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+            text-align: center;
+        }
+        .game-container {
+            width: 80%;
+            max-width: 900px;
+            margin-top: 20px;
+        }
+        .game-button {
+            background-color: #333;
+            color: #ffffff;
+            padding: 15px;
+            margin: 10px;
+            border: 4px solid #ffcc00;
+            box-shadow: 5px 5px 0px black;
+            cursor: pointer;
+            font-size: 14px;
+            width: 80%;
+            max-width: 500px;
+            font-family: 'Press Start 2P';
+            text-align: center;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .game-button:hover {
+            background-color: #ffcc00;
+            color: black;
+        }
+        .back-button {
+            margin-top: 20px;
+            background-color: #555;
+            color: white;
+            padding: 10px 20px;
+            border: 4px solid #333;
+            font-size: 12px;
+            cursor: pointer;
+            box-shadow: 5px 5px 0px black;
+            width: 80%;
+            max-width: 300px;
+            font-family: 'Press Start 2P', cursive, sans-serif;
+        }
+        .back-button:active {
+            box-shadow: 2px 2px 0px black;
+            transform: translate(3px, 3px);
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h2>Фишингээс хамгаалаарай!</h2>
+        <button class="game-button" onclick="location.href='email-phishing.html'">📧 Имэйл фишинг таних</button>
+        <button class="game-button" onclick="location.href='phishing-quiz.html'">❓ Фишинг тест</button>
+        <button class="game-button" onclick="location.href='phishing-theory.html'">🎭 Фишинг халдлагаас хамгаалах</button>
+    </div>
+    <button class="back-button" onclick="location.href='GBL.html'">Буцах</button>
+</body>
+</html>
